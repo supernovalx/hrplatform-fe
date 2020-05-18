@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidatorFn, ValidationErrors, Validators } from '@angular/forms';
 import { GoogleChartInterface, ChartSelectEvent } from 'ng2-google-charts';
 
 @Component({
@@ -13,26 +13,40 @@ export class DepartmentChartComponent {
     chartType: 'OrgChart',
     dataTable: [
       ['Name',   'Manager', 'Tooltip'],
-      [{v: 'Mike', f: 'Mike<div style="color:red; font-style:italic">President</div>'}, '', 'The President'],
-      [{v: 'Jim', f: 'Jim<div style="color:red; font-style:italic">Vice President</div>'}, 'Mike', 'VP'],
-      ['Alice', 'Mike', ''],
-      ['Bob', 'Jim', 'Bob Sponge'],
-      ['Carol', 'Bob', '']
+      [{v: 'Director', f: 'Director<div style="color:red; font-style:italic">Director of the company</div>'}, '', ''],
+      [{v: 'VP', f: 'VP<div style="color:red; font-style:italic">Vice President</div>'}, 'Director',''],
+      [{v:'HR',f:'HR<div style="color:red; font-style:italic">human resource</div>'}, 'VP', ''],
+      [{v:'IT',f:'IT<div style="color:red; font-style:italic">information technology</div>'}, 'Director', ''],
+      [{v:'PA',f:'PA<div style="color:red; font-style:italic">personal assistant</div>'}, 'Director', '']
     ],
     options: {
       allowHtml: true,
       allowCollapse: true
     }
   };
-
+  addNodeForm:FormGroup;
+  constructor(private formBuilder:FormBuilder)
+  {
+    this.addNodeForm = this.formBuilder.group({
+      name: ['',Validators.required],
+      desc: ''
+    });
+    this.addNodeForm.setValidators(this.departmentValidator());
+  }
    onSelect(event)
    {
      console.log(event);
    }
 
-   add(){
-     //this.pieChart.dataTable.push(['Carol', 'Alice', '']);
-     //console.log(this.data);
+   addNode(data){
+     this.pieChart.dataTable.push([{v:data.name,f:`${data.name}<div style="color:red; font-style:italic">${data.desc}</div>`}, this.selectedNode.selectedRowValues[0], data.desc]);
+
+     let ccComponent = this.pieChart.component;
+    let ccWrapper = ccComponent.wrapper;
+
+    //force a redraw
+    ccComponent.draw();
+     console.log(this.pieChart);
    }
 
    public select(event: ChartSelectEvent) {
@@ -41,4 +55,15 @@ export class DepartmentChartComponent {
     this.selectedNode=event;
 
   }
+  public departmentValidator() : ValidatorFn{
+    return (group: FormGroup): ValidationErrors => {
+       const name = group.controls['name'];
+       console.log(name);
+       if(this.pieChart.dataTable.some(x=>x[0].v?.toLowerCase()===name.value?.toLowerCase()))
+         name.setErrors({nameExisted:true});
+        else
+          name.setErrors(null);
+       return;
+ };
+}
 }

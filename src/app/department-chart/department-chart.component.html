@@ -1,4 +1,27 @@
 <google-chart [data]="pieChart" (chartSelect)='select($event)'></google-chart>
 
-<p>Selected {{selectedNode}}</p>
-<button (click)="add()">add</button>
+<p>Selected {{selectedNode?.selectedRowValues[0]}}</p>
+
+<form *ngIf="selectedNode" [formGroup]="addNodeForm" (ngSubmit)="addNode(addNodeForm.value)">
+
+  <div>
+    <label for="name">
+      Name
+    </label>
+    <input id="name" type="text" formControlName="name">
+    <p *ngIf="addNodeForm.get('name').errors?.nameExisted">Name existed</p>
+  </div>
+
+  <div>
+    <label for="address">
+      Desc
+    </label>
+    <input id="desc" type="text" formControlName="desc">
+  </div>
+
+  <button class="button" type="submit">Add</button>
+  <button type="submit" [disabled]="!addNodeForm.valid">
+      Save
+  </button> 
+
+</form>
