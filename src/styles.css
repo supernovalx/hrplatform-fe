@@ -1,1 +1,43 @@
-/* You can add global styles to this file, and also import other style files */
+.orgchart.myChart {
+    background: rgb(238,174,202);
+background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+  }
+  
+  .orgchart.myChart .oc-node .position {
+    box-sizing: border-box;
+    background-color: #215a88;
+    color: #fff;
+    width: 130px;
+    height: 65px;
+    padding: 2px;
+  }
+  
+  .orgchart.myChart .oc-node .fullname {
+    box-sizing: border-box;
+    color: #215a88;
+    background-color:#fff;
+    width: 130px;
+    height: 65px;
+    padding: 2px;
+    border: 1px solid #215a88;
+  }
+  
+  .orgchart.myChart > orgchart-node > .oc-node::after {
+    background-color: rgba(33, 90, 136, 0.8) !important;
+  }
+  
+  .orgchart.myChart .oc-group:not(:last-child)::before {
+    border-color: rgba(33, 90, 136, 0.8)!important;
+  }
+  
+  .orgchart.myChart .oc-group > orgchart-node::before {
+    border-color: rgba(33, 90, 136, 0.8)!important;
+  }
+  
+  .orgchart.myChart orgchart-node:not(:last-child)::after {
+    border-color: rgba(33, 90, 136, 0.8)!important;
+  }
+  
+  #oc-1 .fullname {
+    color: blue;
+  }
