@@ -1,10 +1,4 @@
-<organization-chart chartClass="myChart" [datasource]="ds" [nodeTemplate]="myNodeTemplate">
-</organization-chart>
+<google-chart [data]="pieChart" (chartSelect)='select($event)'></google-chart>
 
-
-<ng-template #myNodeTemplate let-nodeData="datasource">
-	<div (click)="selectNode(nodeData)">
-		<div class="position">{{nodeData.title}}</div>
-		<div class="fullname">{{nodeData.name}}</div>
-	</div>
-</ng-template>
+<p>Selected {{selectedNode}}</p>
+<button (click)="add()">add</button>

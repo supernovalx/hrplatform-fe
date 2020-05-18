@@ -26,14 +26,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [
-              {
-                "bundleName": "orgchart",
-                "inject": true,
-                "input": "./node_modules/@balkangraph/orgchart.js/orgchart.js",
-                "lazy": false
-              }
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
