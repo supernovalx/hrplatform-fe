@@ -18,3 +18,17 @@ li:hover{
     font-weight: bold;
     cursor: pointer;
 }
+.container-fluid{
+    margin:0;
+    padding: 0;
+}
+
+ul{
+    padding-left: .5rem;
+    padding-right: 0;
+}
+
+.side-bar{
+    padding: 0;
+    margin:0;
+}
