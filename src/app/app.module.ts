@@ -22,6 +22,8 @@ import { VerifyEmailComponent } from './components/verify-email/verify-email.com
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthService } from './shared/services/auth.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ManageDepartmentComponent } from './components/manage-department/manage-department.component';
+import { HomeComponent } from './components/home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +32,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     SignUpComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
-    DashboardComponent
+    DashboardComponent,
+    ManageDepartmentComponent,
+    HomeComponent
   ],
   imports: [
     AppRoutingModule,

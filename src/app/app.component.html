@@ -1,4 +1,26 @@
-<div class="container-fluid">
-  <router-outlet></router-outlet>
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">
+    <img src="assets/hr-logo.png" class="d-inline-block align-top" alt="" loading="lazy">
+  </a>
+</nav>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-1" class="bg-gradient-primary">
+      <ul>
+        <li [class.selected]="router.url === '/home'" [routerLink]="['/home']"><i class="fas fa-home"></i>    Home</li>
+        <li [class.selected]="router.url === '/login'" [routerLink]="['/login']"><i class="fas fa-sign-in-alt"></i>   Login</li>
+        <li [class.selected]="router.url === '/register'" [routerLink]="['/register']"><i class="fas fa-diagnoses"></i>  Register</li>
+        <li [class.selected]="router.url === '/manage-department'" [routerLink]="['/manage-department']"><i class="fas fa-project-diagram"></i>    Manage departments</li>
+        <li [class.selected]="router.url === '/manage-users'" [routerLink]="['/manage-users']"><i class="fas fa-users"></i>  Manage users</li>
+        <li [class.selected]="router.url === '/conpany'" [routerLink]="['/conpany']"><i class="fas fa-building"></i>  Edit company info {{router.url}}</li>
+      </ul>
+    </div>
+    <div class="col">
+      <router-outlet></router-outlet>
+
+    </div>
+  </div>
 </div>
+
+

@@ -1,0 +1,20 @@
+li{
+    list-style: none;
+    display: block;
+    padding: 2rem;
+    color:white;
+    font-size: 1.1rem;
+}
+
+li:hover{
+    background-color: white;
+    color:black;
+    cursor: pointer;
+}
+
+.selected{
+    background-color: white;
+    color:blue;
+    font-weight: bold;
+    cursor: pointer;
+}
