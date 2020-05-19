@@ -8,6 +8,7 @@ import { DepartmentChartComponent } from './department-chart/department-chart.co
 import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { Ng2GoogleChartsModule, GoogleChartsSettings } from 'ng2-google-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { Ng2GoogleChartsModule, GoogleChartsSettings } from 'ng2-google-charts';
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
-    Ng2GoogleChartsModule
+    Ng2GoogleChartsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
