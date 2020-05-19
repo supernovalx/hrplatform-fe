@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { DepartmentChartComponent } from './department-chart/department-chart.component';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Ng2GoogleChartsModule, GoogleChartsSettings } from 'ng2-google-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,12 +18,11 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { AppRoutingModule } from 'src/app/shared/routing/app-routing.module';
-import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthService } from './shared/services/auth.service';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { ManageDepartmentComponent } from './components/manage-department/manage-department.component';
 import { HomeComponent } from './components/home/home.component';
+import { MyProfileComponent } from './components/my-profile/my-profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,15 +30,16 @@ import { HomeComponent } from './components/home/home.component';
     SignInComponent,
     SignUpComponent,
     ForgotPasswordComponent,
-    VerifyEmailComponent,
     DashboardComponent,
     ManageDepartmentComponent,
-    HomeComponent
+    HomeComponent,
+    MyProfileComponent
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
     Ng2GoogleChartsModule,
     BrowserAnimationsModule,

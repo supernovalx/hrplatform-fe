@@ -52,17 +52,17 @@ export class AuthService {
   }
 
   // Sign in with email/password
-  SignIn(email, password) {
+  SignIn(user:User) {
     console.log('signin');
     return this.afAuth
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(user.email, user.password)
       .then(result => {
         console.log(result);
         this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['manage-departments']);
           console.log('navigate dashboard');
         });
-        this.SetUserData(result.user);
+        //this.SetUserData(result.user,user);
       })
       .catch(error => {
         window.alert(error.message);
@@ -70,82 +70,47 @@ export class AuthService {
   }
 
   // Sign up with email/password
-  SignUp(email, password) {
+  SignUp(user:User) {
+    console.log(user);
     return this.afAuth
-      .createUserWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(user.email, user.password)
       .then(result => {
         /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
         //this.SendVerificationMail();
         this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['manage-departments']);
           console.log('navigate dashboard');
         });
-        this.SetUserData(result.user);
+        console.log('result',result.user);
+        this.SetUserData(result.user,user);
       })
       .catch(error => {
         window.alert(error.message);
       });
   }
-
-  // Send email verfificaiton when new user sign up
-  async SendVerificationMail() {
-    return (await this.afAuth.currentUser).sendEmailVerification().then(() => {
-      this.router.navigate(['verify-email-address']);
-    });
-  }
-
-  // Reset Forggot password
-  ForgotPassword(passwordResetEmail) {
-    return this.afAuth
-      .sendPasswordResetEmail(passwordResetEmail)
-      .then(() => {
-        window.alert('Password reset email sent, check your inbox.');
-      })
-      .catch(error => {
-        window.alert(error);
-      });
-  }
-
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
     return user !== null ? true : false;
   }
 
-  // Sign in with Google
-  GoogleAuth() {
-    return this.AuthLogin(new auth.GoogleAuthProvider());
-  }
-
-  // Auth logic to run auth providers
-  AuthLogin(provider) {
-    return this.afAuth
-      .signInWithPopup(provider)
-      .then(result => {
-        this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
-        });
-        this.SetUserData(result.user);
-      })
-      .catch(error => {
-        window.alert(error);
-      });
-  }
-
   /* Setting up user data when sign in with username/password,
   sign up with username/password and sign in with social auth
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  SetUserData(user) {
+  SetUserData(user,userInfo) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
     );
     const userData: User = {
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
+      displayName: userInfo.fullname,
       photoURL: user.photoURL,
-      emailVerified: user.emailVerified
+      emailVerified: user.emailVerified,
+      address: userInfo.address,
+      phone: userInfo.phone,
+      dob: userInfo.dob
     };
     return userRef.set(userData, {
       merge: true
@@ -156,7 +121,7 @@ export class AuthService {
   SignOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      this.router.navigate(['sign-in']);
+      this.router.navigate(['home']);
     });
   }
 }

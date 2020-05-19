@@ -10,27 +10,58 @@
             <div class="text-center">
               <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
             </div>
-            <div class="user">
-              <div class="form-group row">
-                <div class="col-sm-6 mb-3 mb-sm-0">
-                  <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="First Name">
-                </div>
-                <div class="col-sm-6">
-                  <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Last Name">
-                </div>
+            <form class="user" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              
+              <div class="form-group">
+                <input type="text" class="form-control form-control-user" placeholder="Fullname" #fullname formControlName="fullname">
+                <ul *ngFor="let validation of account_validation_messages.fullname">
+                  <li class="error-message" *ngIf="registerForm.get('fullname').hasError(validation.type) && (registerForm.get('fullname').dirty || registerForm.get('fullname').touched)">{{validation.message}}
+                  </li>
+                </ul>
               </div>
               <div class="form-group">
-                <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Email Address" #userEmail>
+                <input type="email" class="form-control form-control-user" placeholder="Email Address" #userEmail formControlName="email">
+                <ul *ngFor="let validation of account_validation_messages.email">
+                  <li class="error-message" *ngIf="registerForm.get('email').hasError(validation.type) && (registerForm.get('email').dirty || registerForm.get('email').touched)">{{validation.message}}
+                  </li>
+                </ul>
               </div>
               <div class="form-group">
-                <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" #userPwd>
+                <input type="password" class="form-control form-control-user" placeholder="Password" #userPwd formControlName="password">
+                <ul *ngFor="let validation of account_validation_messages.password">
+                  <li class="error-message" *ngIf="registerForm.get('password').hasError(validation.type) && (registerForm.get('password').dirty || registerForm.get('password').touched)">{{validation.message}}
+                  </li>
+                </ul>
               </div>
-              <input type="button" class="btn btn-primary btn-user btn-block" value="Sign Up"
-          (click)="authService.SignUp(userEmail.value, userPwd.value)">
-            </div>
+              <div class="form-group">
+                <input type="text" class="form-control form-control-user" placeholder="Address" #address formControlName="address">
+                <ul *ngFor="let validation of account_validation_messages.address">
+                  <li class="error-message" *ngIf="registerForm.get('address').hasError(validation.type) && (registerForm.get('address').dirty || registerForm.get('address').touched)">{{validation.message}}
+                  </li>
+                </ul>
+              </div>
+              <div class="form-group">
+                <input type="phone" class="form-control form-control-user" placeholder="Phone" #phone required formControlName="phone">
+                <ul *ngFor="let validation of account_validation_messages.phone">
+                  <li class="error-message" *ngIf="registerForm.get('phone').hasError(validation.type) && (registerForm.get('phone').dirty || registerForm.get('phone').touched)">{{validation.message}}
+                  </li>
+                </ul>
+              </div>
+              <div class="form-group">
+                <input type="date" class="form-control form-control-user" placeholder="Date of birth" #phone required formControlName="dob">
+                <ul *ngFor="let validation of account_validation_messages.dob">
+                  <li class="error-message" *ngIf="registerForm.get('dob').hasError(validation.type) && (registerForm.get('dob').dirty || registerForm.get('dob').touched)">{{validation.message}}
+                  </li>
+                </ul>
+              </div>
+
+              <input type="submit" class="btn btn-primary btn-user btn-block" value="Sign Up" [disabled]="!registerForm.valid">
+            </form>
             <div class="text-center">
               <a class="small" [routerLink]="['/login']" >Already have an account? Login!</a>
             </div>
+            <p>{{registerForm.status}}</p>
+            <p>{{registerForm.value | json}}</p>
           </div>
         </div>
       </div>
