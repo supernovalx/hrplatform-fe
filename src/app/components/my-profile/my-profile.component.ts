@@ -1,15 +1,16 @@
 import { DbService } from 'src/app/shared/services/db.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { User } from 'firebase';
 import { Validators, FormBuilder } from '@angular/forms';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-my-profile',
   templateUrl: './my-profile.component.html',
   styleUrls: ['./my-profile.component.css']
 })
-export class MyProfileComponent implements OnInit {
+export class MyProfileComponent implements OnDestroy {
   user: any;
   account_validation_messages = {
     fullname: [{ type: 'required', message: 'Fullname is required' }],
@@ -43,12 +44,13 @@ export class MyProfileComponent implements OnInit {
     phone: ['', Validators.required],
     dob: ['', Validators.required]
   });
+  userSub:Subscription;
   constructor(
     public auth: AuthService,
     public fb: FormBuilder,
     public db: DbService
   ) {
-    auth.user$.subscribe(user => {
+    this.userSub=auth.user$.subscribe(user => {
       this.user = user;
       this.profileForm.setValue({
         uid: user.uid,
@@ -59,6 +61,9 @@ export class MyProfileComponent implements OnInit {
         dob: user.dob
       });
     });
+  }
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
   }
   onSubmit() {
     this.db

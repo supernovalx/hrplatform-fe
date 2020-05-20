@@ -1,5 +1,5 @@
 import { DbService } from 'src/app/shared/services/db.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ChartSelectEvent, GoogleChartInterface } from 'ng2-google-charts';
 import {
   FormGroup,
@@ -10,13 +10,15 @@ import {
 } from '@angular/forms';
 import { AngularFirestoreCollection } from '@angular/fire/firestore/public_api';
 import { Department } from 'src/app/shared/services/department';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-manage-department',
   templateUrl: './manage-department.component.html',
   styleUrls: ['./manage-department.component.css']
 })
-export class ManageDepartmentComponent {
+export class ManageDepartmentComponent implements OnDestroy{
   selectedDepartmentId='';
   public orgChart: GoogleChartInterface = {
     chartType: 'OrgChart',
@@ -34,19 +36,31 @@ export class ManageDepartmentComponent {
     description: ['', Validators.required]
   });
   departmentsData: any;
-  constructor(private formBuilder: FormBuilder, public db: DbService) {
+  dbSub:Subscription;
+  userSub:Subscription;
+  loading=true;
+  constructor(private formBuilder: FormBuilder, public db: DbService,public auth:AuthService) {
+    this.userSub=this.auth.user$.subscribe(u=>{
+      this.dbSub?.unsubscribe();
+      this.loading=true;
+      this.dbSub=this.db
+        .getDepartmentsCollectionByCompanyId(u.companyId)
+        .subscribe(d => 
+          {
+            this.loading=false;
+            console.log('new data');
+            this.departmentsData = d;
+            this.transformDepartmentList(d);
+            this.selectedDepartmentId='';
+            this.resetForm();
+            this.redraw();
+          });
 
-    this.db
-      .getDepartmentsCollectionByCompanyId('aLlgfTXgQ8NGXpOIAZVemaGsmGF3')
-      .subscribe(d => 
-        {
-          console.log('new data');
-          this.departmentsData = d;
-          this.transformDepartmentList(d);
-          this.selectedDepartmentId='';
-          this.resetForm();
-          this.redraw();
-        });
+    });
+  }
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
+    this.dbSub.unsubscribe();
   }
 
   addNode() {
@@ -54,7 +68,7 @@ export class ManageDepartmentComponent {
       .addDepartment({
         name: this.addNodeForm.value.name,
         description: this.addNodeForm.value.description,
-        companyId: 'aLlgfTXgQ8NGXpOIAZVemaGsmGF3',
+        companyId: this.auth.userData.companyId,
         parentId: this.selectedDepartmentId
       })
       .then(d => console.log('add node',d));
@@ -99,7 +113,13 @@ export class ManageDepartmentComponent {
     });
   }
 
-  updateNode() {}
+  updateNode() {
+    this.db.setDepartmentData({
+      name: this.addNodeForm.value.name,
+      description: this.addNodeForm.value.description,
+      id:this.selectedDepartmentId
+    });
+  }
   deleteNode(){
     if(this.selectedDepartmentId!='')
       this.db.deleteDepartment(this.selectedDepartmentId);

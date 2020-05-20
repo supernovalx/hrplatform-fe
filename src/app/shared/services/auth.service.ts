@@ -28,7 +28,7 @@ export class AuthService {
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
-    this.afAuth.authState.subscribe(user => {
+    /*this.afAuth.authState.subscribe(user => {
       console.log('subscribe', user);
       if (user) {
         this.userData = user;
@@ -38,7 +38,7 @@ export class AuthService {
         localStorage.setItem('user', null);
         JSON.parse(localStorage.getItem('user'));
       }
-    });
+    });*/
 
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
@@ -51,6 +51,9 @@ export class AuthService {
         }
       })
     );
+    this.user$.subscribe(u=>{
+      this.userData=u;
+    });
   }
 
   // Sign in with email/password
@@ -86,7 +89,7 @@ export class AuthService {
         });
         console.log('result', result.user);
         //this.SetUserData(result.user, user);
-        this.db.setUserData({ ...user, uid: result.user.uid });
+        this.db.setUserData({ ...user, uid: result.user.uid, companyId:result.user.uid });
         this.db.setCompanyData({
           id: result.user.uid,
           name: result.user.email,
@@ -99,8 +102,8 @@ export class AuthService {
   }
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return user !== null ? true : false;
+    //const user = JSON.parse(localStorage.getItem('user'));
+    return this.userData !== null ? true : false;
   }
 
   /* Setting up user data when sign in with username/password,

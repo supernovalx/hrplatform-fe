@@ -23,6 +23,7 @@ import { HomeComponent } from './components/home/home.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { ConpanyComponent } from './components/conpany/conpany.component';
 import { DbService } from './shared/services/db.service';
+import { ManageUserComponent } from './components/manage-user/manage-user.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +33,8 @@ import { DbService } from './shared/services/db.service';
     ManageDepartmentComponent,
     HomeComponent,
     MyProfileComponent,
-    ConpanyComponent
+    ConpanyComponent,
+    ManageUserComponent
   ],
   imports: [
     AppRoutingModule,

@@ -4,7 +4,10 @@
   </a>
 
   <span *ngIf="auth.isLoggedIn && auth.userData" class="navbar-text">
-    Welcome {{auth.userData.email}}
+    <h5>
+
+      Welcome <span class="badge badge-primary">{{auth.userData.email}}</span><span *ngIf="company" class="badge badge-light">{{company.name}}</span>
+    </h5>
   </span>
 </nav>
 

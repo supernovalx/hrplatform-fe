@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { DbService } from 'src/app/shared/services/db.service';
 import { Company } from 'src/app/shared/services/company';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-conpany',
   templateUrl: './conpany.component.html',
   styleUrls: ['./conpany.component.css']
 })
-export class ConpanyComponent implements OnInit {
+export class ConpanyComponent implements OnDestroy {
   user:any;
   company:Company;
   account_validation_messages = {
@@ -26,8 +27,9 @@ export class ConpanyComponent implements OnInit {
     name: ['',Validators.required],
     description: ['',Validators.required]
   });
+  userSub:Subscription
   constructor(private fb:FormBuilder,public auth:AuthService,public db:DbService) { 
-    auth.user$.subscribe(user=>
+    this.userSub=auth.user$.subscribe(user=>
       {
         this.user=user;
         db.getCompany(user.uid).subscribe(c=>{
@@ -40,6 +42,9 @@ export class ConpanyComponent implements OnInit {
         });
       });
       
+  }
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
   }
   onSubmit(){
     this.db.setCompanyData(this.companyForm.value).then(()=>alert('Update succeed'));

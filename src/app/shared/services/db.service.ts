@@ -49,6 +49,15 @@ export class DbService {
     return this.afs.collection('departments').add(deparment);
   }
 
+  setDepartmentData(deparment:Department)
+  {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `departments/${deparment.id}`
+    );
+    return userRef.set(deparment, {
+      merge: true
+    });
+  }
   deleteDepartment(id:string)
   {
     this.deleteChildDepartment(id);
@@ -66,4 +75,19 @@ export class DbService {
           );
       })
   }
+
+  getUsersByCompanyId(id:string)
+  {
+    return this.afs
+      .collection('users', ref => ref.where('companyId', '==', id))
+      .valueChanges({ idField: 'id' });
+  }
+
+  getUsersByCompanyIdAndDepartmentId(companyId:string,departmentId:string)
+  {
+    return this.afs
+      .collection('users', ref => ref.where('companyId', '==', companyId).where('departmentId','==',departmentId))
+      .valueChanges({ idField: 'id' });
+  }
+
 }

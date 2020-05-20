@@ -8,6 +8,7 @@ import { ManageDepartmentComponent } from 'src/app/components/manage-department/
 import { HomeComponent } from 'src/app/components/home/home.component';
 import { MyProfileComponent } from 'src/app/components/my-profile/my-profile.component';
 import { ConpanyComponent } from 'src/app/components/conpany/conpany.component';
+import { ManageUserComponent } from 'src/app/components/manage-user/manage-user.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'profile', component: MyProfileComponent },
   { path: 'company', component: ConpanyComponent},
+  { path: 'manage-users', component: ManageUserComponent}
 
 ];
 

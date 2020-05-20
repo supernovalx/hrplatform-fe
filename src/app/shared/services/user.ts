@@ -10,4 +10,5 @@ export interface User {
   phone?: string;
   dob?: Date;
   companyId?: string;
+  departmentId?:string;
 }

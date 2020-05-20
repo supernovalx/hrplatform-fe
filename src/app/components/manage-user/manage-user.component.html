@@ -1,0 +1,129 @@
+<div class="accordion" id="accordionExample">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Add or update user information
+        </button>
+    </h2>
+</div>
+
+<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+    <div class="card-body">
+        <form class="user" [formGroup]="userForm">
+              <div class="container">
+                  <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                        <label for="fullname">Full name</label>
+                        <input type="text" class="form-control form-control-user" placeholder="Fullname" #fullname formControlName="fullname">
+                        <ul *ngFor="let validation of account_validation_messages.fullname">
+                          <li class="error-message" *ngIf="userForm.get('fullname').hasError(validation.type) && (userForm.get('fullname').dirty || userForm.get('fullname').touched)">{{validation.message}}
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="form-group">
+                        <label for="email">Company email</label>
+                        <input type="email" class="form-control form-control-user" placeholder="Email Address" #userEmail formControlName="email">
+                        <ul *ngFor="let validation of account_validation_messages.email">
+                          <li class="error-message" *ngIf="userForm.get('email').hasError(validation.type) && (userForm.get('email').dirty || userForm.get('email').touched)">{{validation.message}}
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control form-control-user" placeholder="Password" #userPwd formControlName="password">
+                        <ul *ngFor="let validation of account_validation_messages.password">
+                          <li class="error-message" *ngIf="userForm.get('password').hasError(validation.type) && (userForm.get('password').dirty || userForm.get('password').touched)">{{validation.message}}
+                          </li>
+                        </ul>
+                      </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control form-control-user" placeholder="Address" #address formControlName="address">
+                        <ul *ngFor="let validation of account_validation_messages.address">
+                          <li class="error-message" *ngIf="userForm.get('address').hasError(validation.type) && (userForm.get('address').dirty || userForm.get('address').touched)">{{validation.message}}
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="phone" class="form-control form-control-user" placeholder="Phone" #phone required formControlName="phone">
+                        <ul *ngFor="let validation of account_validation_messages.phone">
+                          <li class="error-message" *ngIf="userForm.get('phone').hasError(validation.type) && (userForm.get('phone').dirty || userForm.get('phone').touched)">{{validation.message}}
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="form-group">
+                        <label for="dob">Date of birth</label>
+                        <input type="date" class="form-control form-control-user" placeholder="Date of birth" #dob required formControlName="dob">
+                        <ul *ngFor="let validation of account_validation_messages.dob">
+                          <li class="error-message" *ngIf="userForm.get('dob').hasError(validation.type) && (userForm.get('dob').dirty || userForm.get('dob').touched)">{{validation.message}}
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="form-group">
+                        <label for="dp">Department</label>
+                        <select class="form-control" #dp required formControlName="department">
+                            <option *ngFor="let d of departmentsData">{{d.name}}</option>
+                          </select>
+                        <ul *ngFor="let validation of account_validation_messages.department">
+                          <li class="error-message" *ngIf="userForm.get('department').hasError(validation.type) && (userForm.get('department').dirty || userForm.get('department').touched)">{{validation.message}}
+                          </li>
+                        </ul>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row justify-content-center">
+                <div class="col-3">
+                  <button class="btn btn-primary btn-user btn-block"  [disabled]="!userForm.valid" (click)="updateUser()"><i class="fas fa-pen"></i> Update user</button>
+                </div>
+                <div class="col-3">
+                  <button class="btn btn-primary btn-user btn-block"  [disabled]="!userForm.valid" (click)="addUser()"><i class="fas fa-plus"></i> Add new user</button>
+                </div>
+              </div>
+
+          </form>
+    </div>
+</div>
+</div>
+</div>
+
+<h1 *ngIf="company">User list of {{company.name}}</h1>
+<div class="form-group">
+    <label for="exampleFormControlSelect1">Filter by department</label>
+    <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="selectedFilter">
+      <option>All</option>
+      <option *ngFor="let d of departmentsData">{{d.name}}</option>
+    </select>
+</div>
+<p>{{selectedFilter}}</p>
+<pre>{{usersData |json}}</pre>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Fullname</th>
+        <th scope="col">Email</th>
+        <th scope="col">Address</th>
+        <th scope="col">Date of birth</th>
+        <th scope="col">Department</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of usersData">
+        <th scope="row">{{u.fullname}}</th>
+        <td>{{u.email}}</td>
+        <td>{{u.address}}</td>
+        <td>{{u.dob}}</td>
+        <td>{{u.departmentId}}</td>
+        <td><button class="btn btn-warning"><i class="far fa-trash-alt"></i></button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  
