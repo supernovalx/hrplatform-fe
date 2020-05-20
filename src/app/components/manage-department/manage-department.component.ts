@@ -78,13 +78,13 @@ export class ManageDepartmentComponent {
       allowCollapse: true
     }
   };
-  addNodeForm: FormGroup;
+  addNodeForm = this.formBuilder.group({
+    parent: [''],
+    name: ['', Validators.required],
+    description: ['', Validators.required]
+  });
   data: any;
   constructor(private formBuilder: FormBuilder, public db: DbService) {
-    this.addNodeForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      desc: ''
-    });
     this.addNodeForm.setValidators(this.departmentValidator());
 
     this.db
@@ -95,20 +95,20 @@ export class ManageDepartmentComponent {
     console.log(event);
   }
 
-  addNode(data) {
+  addNode() {
     this.pieChart.dataTable.push([
       {
-        v: data.name,
-        f: `${data.name}<div style="color:red; font-style:italic">${data.desc}</div>`
+        v: this.addNodeForm.value.name,
+        f: `${this.addNodeForm.value.name}<div style="color:red; font-style:italic">${this.addNodeForm.value.description}</div>`
       },
       this.selectedNode.selectedRowValues[0],
-      data.desc
+      this.addNodeForm.value.description
     ]);
 
     this.db
       .addDepartment({
-        name: data.name,
-        description: data.desc,
+        name: this.addNodeForm.value.name,
+        description: this.addNodeForm.value.description,
         companyId: 'aLlgfTXgQ8NGXpOIAZVemaGsmGF3',
         parentId: 'daddawd'
       })
@@ -123,10 +123,15 @@ export class ManageDepartmentComponent {
   }
 
   public select(event: ChartSelectEvent) {
-    if (event.message === 'deselect') return;
+    if (event.message === 'deselect') event.selectedRowValues[0] = 'None';
     console.log(event);
     this.selectedNode = event;
+    this.addNodeForm.patchValue({
+      parent: event?.selectedRowValues[0]
+    });
   }
+
+  updateNode() {}
   public departmentValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
       const name = group.controls['name'];

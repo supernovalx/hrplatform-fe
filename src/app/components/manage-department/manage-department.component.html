@@ -2,28 +2,23 @@
 
 <p>Selected {{selectedNode?.selectedRowValues[0]}} department</p>
 
-<form *ngIf="selectedNode" [formGroup]="addNodeForm" (ngSubmit)="addNode(addNodeForm.value)">
-
-  <div>
-    <label for="name">
-      Name
-    </label>
-    <input id="name" type="text" formControlName="name">
-    <p *ngIf="addNodeForm.get('name').errors?.nameExisted">Name existed</p>
+<form class="user" [formGroup]="addNodeForm">
+  <label for="parent">Parent department</label>
+  <div class="form-group">
+    <input type="text" class="form-control form-control-user" #parent required formControlName="parent" readonly placeholder="None">
   </div>
-
-  <div>
-    <label for="address">
-      Desc
-    </label>
-    <input id="desc" type="text" formControlName="desc">
+  <label for="name">Department name</label>
+  <div class="form-group">
+    <input type="text" class="form-control form-control-user" #name required formControlName="name"
+      placeholder="Department name">
   </div>
-
-  <button class="button" type="submit">Add</button>
-  <button type="submit" [disabled]="!addNodeForm.valid">
-    Save
-  </button>
-
+  <label for="name">Department description</label>
+  <div class="form-group">
+    <input type="text" class="form-control form-control-user" #description required formControlName="description"
+      placeholder="Department description">
+  </div>
+  <input type="submit" class="btn btn-primary btn-user btn-block" value="Update department" [disabled]="!addNodeForm.valid" (click)="updateNode()"/>
+  <input type="submit" class="btn btn-primary btn-user btn-block" value="Add department" [disabled]="!addNodeForm.valid" (click)="addNode()"/>
 </form>
 
 <pre>{{data | json}}</pre>
