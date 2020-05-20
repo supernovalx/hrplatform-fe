@@ -2,7 +2,8 @@ import { Department } from './department';
 import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
-  AngularFirestoreDocument
+  AngularFirestoreDocument,
+  AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
 import { Company } from './company';
@@ -41,7 +42,7 @@ export class DbService {
   getDepartmentsCollectionByCompanyId(companyId: string) {
     return this.afs
       .collection('departments', ref => ref.where('companyId', '==', companyId))
-      .valueChanges();
+      .valueChanges({ idField: 'id' });
   }
 
   addDepartment(deparment: Department) {

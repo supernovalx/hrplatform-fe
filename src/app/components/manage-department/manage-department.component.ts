@@ -8,6 +8,8 @@ import {
   ValidatorFn,
   ValidationErrors
 } from '@angular/forms';
+import { AngularFirestoreCollection } from '@angular/fire/firestore/public_api';
+import { Department } from 'src/app/shared/services/department';
 
 @Component({
   selector: 'app-manage-department',
@@ -15,63 +17,11 @@ import {
   styleUrls: ['./manage-department.component.css']
 })
 export class ManageDepartmentComponent {
-  selectedNode: ChartSelectEvent;
-  public pieChart: GoogleChartInterface = {
+  selectedDepartmentId='';
+  public orgChart: GoogleChartInterface = {
     chartType: 'OrgChart',
     dataTable: [
-      ['Name', 'Manager', 'Tooltip'],
-      [
-        {
-          v: 'Director',
-          f:
-            'Director<div style="color:red; font-style:italic">Director of the company</div>'
-        },
-        '',
-        ''
-      ],
-      [
-        {
-          v: 'Dirdawdector',
-          f:
-            'Director<div style="color:red; font-style:italic">Director of the company</div>'
-        },
-        '',
-        ''
-      ],
-      [
-        {
-          v: 'VP',
-          f: 'VP<div style="color:red; font-style:italic">Vice President</div>'
-        },
-        'Director',
-        ''
-      ],
-      [
-        {
-          v: 'HR',
-          f: 'HR<div style="color:red; font-style:italic">human resource</div>'
-        },
-        'VP',
-        ''
-      ],
-      [
-        {
-          v: 'IT',
-          f:
-            'IT<div style="color:red; font-style:italic">information technology</div>'
-        },
-        'Director',
-        ''
-      ],
-      [
-        {
-          v: 'PA',
-          f:
-            'PA<div style="color:red; font-style:italic">personal assistant</div>'
-        },
-        'Director',
-        ''
-      ]
+      
     ],
     options: {
       allowHtml: true,
@@ -83,61 +33,74 @@ export class ManageDepartmentComponent {
     name: ['', Validators.required],
     description: ['', Validators.required]
   });
-  data: any;
+  departmentsData: any;
   constructor(private formBuilder: FormBuilder, public db: DbService) {
     this.addNodeForm.setValidators(this.departmentValidator());
 
     this.db
       .getDepartmentsCollectionByCompanyId('aLlgfTXgQ8NGXpOIAZVemaGsmGF3')
-      .subscribe(d => (this.data = d));
-  }
-  onSelect(event) {
-    console.log(event);
+      .subscribe(d => 
+        {
+          this.departmentsData = d;
+          this.transformDepartmentList(d);
+          this.redraw();
+        });
   }
 
   addNode() {
-    this.pieChart.dataTable.push([
-      {
-        v: this.addNodeForm.value.name,
-        f: `${this.addNodeForm.value.name}<div style="color:red; font-style:italic">${this.addNodeForm.value.description}</div>`
-      },
-      this.selectedNode.selectedRowValues[0],
-      this.addNodeForm.value.description
-    ]);
-
     this.db
       .addDepartment({
         name: this.addNodeForm.value.name,
         description: this.addNodeForm.value.description,
         companyId: 'aLlgfTXgQ8NGXpOIAZVemaGsmGF3',
-        parentId: 'daddawd'
+        parentId: this.selectedDepartmentId
       })
       .then(d => console.log(d));
+  }
 
-    let ccComponent = this.pieChart.component;
-    let ccWrapper = ccComponent.wrapper;
+  transformDepartment(department:Department)
+  {
+    return ([
+      {
+        v: department.id,
+        f: `<div style="font-weight:bold;text-transform: uppercase;text-decoration:underline;">${department.name}</div><div style="color:red;">${department.description}</div>`
+      },
+      department.parentId,
+      department.name
+    ]);
+  }
 
-    //force a redraw
-    ccComponent.draw();
-    console.log(this.pieChart);
+  transformDepartmentList(dl:any)
+  {
+    this.orgChart.dataTable=[['','','']];
+    dl.forEach(d => {
+      this.orgChart.dataTable.push(this.transformDepartment(d));
+      console.log('new dept');
+    });
   }
 
   public select(event: ChartSelectEvent) {
-    if (event.message === 'deselect') event.selectedRowValues[0] = 'None';
+    if (event.message === 'deselect') this.selectedDepartmentId='';
     console.log(event);
-    this.selectedNode = event;
+    this.selectedDepartmentId = event?.selectedRowValues[0];
     this.addNodeForm.patchValue({
-      parent: event?.selectedRowValues[0]
+      parent: event?.selectedRowValues[2]
     });
   }
 
   updateNode() {}
+  deleteNode(){}
+  redraw()
+  {
+    let ccComponent = this.orgChart.component;
+    ccComponent.draw();
+  }
   public departmentValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
       const name = group.controls['name'];
       console.log(name);
       if (
-        this.pieChart.dataTable.some(
+        this.orgChart.dataTable.some(
           x => x[0].v?.toLowerCase() === name.value?.toLowerCase()
         )
       )
