@@ -24,7 +24,7 @@ export class AuthService {
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
     public ngZone: NgZone, // NgZone service to remove outside scope warning
-    public db:DbService
+    public db: DbService
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
@@ -54,7 +54,7 @@ export class AuthService {
   }
 
   // Sign in with email/password
-  SignIn(user:User) {
+  SignIn(user: User) {
     console.log('signin');
     return this.afAuth
       .signInWithEmailAndPassword(user.email, user.password)
@@ -72,7 +72,7 @@ export class AuthService {
   }
 
   // Sign up with email/password
-  SignUp(user:User) {
+  SignUp(user: User) {
     console.log(user);
     return this.afAuth
       .createUserWithEmailAndPassword(user.email, user.password)
@@ -84,9 +84,14 @@ export class AuthService {
           this.router.navigate(['manage-departments']);
           console.log('navigate dashboard');
         });
-        console.log('result',result.user);
-        this.SetUserData(result.user,user);
-        this.db.setCompanyData({id:result.user.uid,name:result.user.email,description:result.user.email});
+        console.log('result', result.user);
+        //this.SetUserData(result.user, user);
+        this.db.setUserData({ ...user, uid: result.user.uid });
+        this.db.setCompanyData({
+          id: result.user.uid,
+          name: result.user.email,
+          description: result.user.email
+        });
       })
       .catch(error => {
         window.alert(error.message);
@@ -100,7 +105,7 @@ export class AuthService {
 
   /* Setting up user data when sign in with username/password,
   sign up with username/password and sign in with social auth
-  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
+  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service
   SetUserData(user,userInfo) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
@@ -119,7 +124,7 @@ export class AuthService {
     return userRef.set(userData, {
       merge: true
     });
-  }
+  }*/
 
   // Sign out
   SignOut() {
