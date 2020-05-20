@@ -21,7 +21,9 @@
 
   <button class="button" type="submit">Add</button>
   <button type="submit" [disabled]="!addNodeForm.valid">
-      Save
-  </button> 
+    Save
+  </button>
 
 </form>
+
+<pre>{{data | json}}</pre>

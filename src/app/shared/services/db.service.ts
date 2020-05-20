@@ -1,3 +1,4 @@
+import { Department } from './department';
 import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
@@ -41,5 +42,9 @@ export class DbService {
     return this.afs
       .collection('departments', ref => ref.where('companyId', '==', companyId))
       .valueChanges();
+  }
+
+  addDepartment(deparment: Department) {
+    return this.afs.collection('departments').add(deparment);
   }
 }

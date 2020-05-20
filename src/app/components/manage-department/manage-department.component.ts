@@ -31,6 +31,15 @@ export class ManageDepartmentComponent {
       ],
       [
         {
+          v: 'Dirdawdector',
+          f:
+            'Director<div style="color:red; font-style:italic">Director of the company</div>'
+        },
+        '',
+        ''
+      ],
+      [
+        {
           v: 'VP',
           f: 'VP<div style="color:red; font-style:italic">Vice President</div>'
         },
@@ -70,12 +79,17 @@ export class ManageDepartmentComponent {
     }
   };
   addNodeForm: FormGroup;
+  data: any;
   constructor(private formBuilder: FormBuilder, public db: DbService) {
     this.addNodeForm = this.formBuilder.group({
       name: ['', Validators.required],
       desc: ''
     });
     this.addNodeForm.setValidators(this.departmentValidator());
+
+    this.db
+      .getDepartmentsCollectionByCompanyId('aLlgfTXgQ8NGXpOIAZVemaGsmGF3')
+      .subscribe(d => (this.data = d));
   }
   onSelect(event) {
     console.log(event);
@@ -90,6 +104,15 @@ export class ManageDepartmentComponent {
       this.selectedNode.selectedRowValues[0],
       data.desc
     ]);
+
+    this.db
+      .addDepartment({
+        name: data.name,
+        description: data.desc,
+        companyId: 'aLlgfTXgQ8NGXpOIAZVemaGsmGF3',
+        parentId: 'daddawd'
+      })
+      .then(d => console.log(d));
 
     let ccComponent = this.pieChart.component;
     let ccWrapper = ccComponent.wrapper;
