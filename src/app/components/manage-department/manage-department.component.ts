@@ -126,7 +126,9 @@ export class ManageDepartmentComponent implements OnDestroy{
   }
   redraw()
   {
+    try{
     let ccComponent = this.orgChart.component;
     ccComponent.draw();
+    }catch(e){console.log(e)};
   }
 }

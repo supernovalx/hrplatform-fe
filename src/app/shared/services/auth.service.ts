@@ -100,6 +100,22 @@ export class AuthService {
         window.alert(error.message);
       });
   }
+
+  addNewAccount(user:User){
+    return this.afAuth
+      .createUserWithEmailAndPassword(user.email, user.password)
+      .then(result => {
+        /* Call the SendVerificaitonMail() function when new user sign
+        up and returns promise */
+        //this.SendVerificationMail();
+        console.log('result', result.user);
+        //this.SetUserData(result.user, user);
+        this.db.setUserData({ ...user, uid: result.user.uid });
+      })
+      .catch(error => {
+        window.alert(error.message);
+      });
+  }
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
     //const user = JSON.parse(localStorage.getItem('user'));

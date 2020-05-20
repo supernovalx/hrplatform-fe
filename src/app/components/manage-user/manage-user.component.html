@@ -67,7 +67,7 @@
                       <div class="form-group">
                         <label for="dp">Department</label>
                         <select class="form-control" #dp required formControlName="department">
-                            <option *ngFor="let d of departmentsData">{{d.name}}</option>
+                            <option *ngFor="let d of departmentsData" [ngValue]="d.id">{{d.name}}</option>
                           </select>
                         <ul *ngFor="let validation of account_validation_messages.department">
                           <li class="error-message" *ngIf="userForm.get('department').hasError(validation.type) && (userForm.get('department').dirty || userForm.get('department').touched)">{{validation.message}}
@@ -97,13 +97,13 @@
 <div class="form-group">
     <label for="exampleFormControlSelect1">Filter by department</label>
     <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="selectedFilter">
-      <option>All</option>
-      <option *ngFor="let d of departmentsData">{{d.name}}</option>
+      <option [ngValue]="0">All</option>
+      <option *ngFor="let d of departmentsData" [ngValue]="d.id">{{d.name}}</option>
     </select>
 </div>
 <p>{{selectedFilter}}</p>
-<pre>{{usersData |json}}</pre>
-<table class="table table-striped">
+
+<table *ngIf="!loading" class="table table-striped">
     <thead>
       <tr>
         <th scope="col">Fullname</th>
@@ -115,7 +115,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let u of usersData">
+      <tr *ngFor="let u of filter(usersData)">
         <th scope="row">{{u.fullname}}</th>
         <td>{{u.email}}</td>
         <td>{{u.address}}</td>
@@ -127,3 +127,5 @@
   </table>
 
   
+  <pre>{{usersData |json}}</pre>
+  <pre>{{departmentsData|json}}</pre>
