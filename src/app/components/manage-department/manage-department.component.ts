@@ -29,20 +29,22 @@ export class ManageDepartmentComponent {
     }
   };
   addNodeForm = this.formBuilder.group({
-    parent: [''],
+    selected: [''],
     name: ['', Validators.required],
     description: ['', Validators.required]
   });
   departmentsData: any;
   constructor(private formBuilder: FormBuilder, public db: DbService) {
-    this.addNodeForm.setValidators(this.departmentValidator());
 
     this.db
       .getDepartmentsCollectionByCompanyId('aLlgfTXgQ8NGXpOIAZVemaGsmGF3')
       .subscribe(d => 
         {
+          console.log('new data');
           this.departmentsData = d;
           this.transformDepartmentList(d);
+          this.selectedDepartmentId='';
+          this.resetForm();
           this.redraw();
         });
   }
@@ -55,7 +57,7 @@ export class ManageDepartmentComponent {
         companyId: 'aLlgfTXgQ8NGXpOIAZVemaGsmGF3',
         parentId: this.selectedDepartmentId
       })
-      .then(d => console.log(d));
+      .then(d => console.log('add node',d));
   }
 
   transformDepartment(department:Department)
@@ -81,32 +83,30 @@ export class ManageDepartmentComponent {
 
   public select(event: ChartSelectEvent) {
     if (event.message === 'deselect') this.selectedDepartmentId='';
+    else this.selectedDepartmentId = event?.selectedRowValues[0];
     console.log(event);
-    this.selectedDepartmentId = event?.selectedRowValues[0];
     this.addNodeForm.patchValue({
-      parent: event?.selectedRowValues[2]
+      selected: event?.selectedRowValues[2],
+      name:event?.selectedRowValues[2]
+    });
+  }
+
+  resetForm(){
+    this.addNodeForm.setValue({
+      selected: '',
+      name:'',
+      description:''
     });
   }
 
   updateNode() {}
-  deleteNode(){}
+  deleteNode(){
+    if(this.selectedDepartmentId!='')
+      this.db.deleteDepartment(this.selectedDepartmentId);
+  }
   redraw()
   {
     let ccComponent = this.orgChart.component;
     ccComponent.draw();
-  }
-  public departmentValidator(): ValidatorFn {
-    return (group: FormGroup): ValidationErrors => {
-      const name = group.controls['name'];
-      console.log(name);
-      if (
-        this.orgChart.dataTable.some(
-          x => x[0].v?.toLowerCase() === name.value?.toLowerCase()
-        )
-      )
-        name.setErrors({ nameExisted: true });
-      else name.setErrors(null);
-      return;
-    };
   }
 }

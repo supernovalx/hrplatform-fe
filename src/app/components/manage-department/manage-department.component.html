@@ -4,9 +4,9 @@
 <h4 *ngIf="orgChart.dataTable.length<=1" class="text-center text-info">There is no department in your company. Please add more!</h4>
 <h1>Add, update or delete department</h1>
 <form class="user" [formGroup]="addNodeForm">
-  <label for="parent">Parent department</label>
+  <label for="parent">Selected department</label>
   <div class="form-group">
-    <input type="text" class="form-control form-control-user" #parent formControlName="parent" readonly placeholder="None">
+    <input type="text" class="form-control form-control-user" #parent formControlName="selected" readonly placeholder="None">
   </div>
   <label for="name">Department name</label>
   <div class="form-group">
@@ -23,13 +23,13 @@
       <button class="btn btn-primary btn-user btn-block"  [disabled]="!addNodeForm.valid" (click)="updateNode()"><i class="fas fa-pen"></i> Update department</button>
     </div>
     <div class="col-3">
-      <button class="btn btn-primary btn-user btn-block"  [disabled]="!addNodeForm.valid" (click)="addNode()"><i class="fas fa-plus"></i> Add department</button>
+      <button class="btn btn-primary btn-user btn-block"  [disabled]="!addNodeForm.valid" (click)="addNode()"><i class="fas fa-plus"></i> Add new department</button>
     </div>
     <div class="col-3">
-      <button class="btn btn-primary btn-user btn-block"  [disabled]="!addNodeForm.valid" (click)="deleteNode()"><i class="fas fa-trash-alt"></i> Delete department</button>
+      <button class="btn btn-primary btn-user btn-block"  [disabled]="!addNodeForm.value.selected" (click)="deleteNode()"><i class="fas fa-trash-alt"></i> Delete department</button>
     </div>
   </div>
 </form>
-
+<p>{{selectedDepartmentId}}</p>
 <pre>{{departmentsData | json}}</pre>
 <pre>{{orgChart.dataTable | json}}</pre>

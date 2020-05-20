@@ -48,4 +48,22 @@ export class DbService {
   addDepartment(deparment: Department) {
     return this.afs.collection('departments').add(deparment);
   }
+
+  deleteDepartment(id:string)
+  {
+    this.deleteChildDepartment(id);
+    return this.afs.doc(`departments/${id}`).delete();
+  }
+
+  deleteChildDepartment(parentId:string)
+  {
+    this.afs
+      .collection('departments', ref => ref.where('parentId', '==', parentId))
+      .valueChanges({ idField: 'id' }).subscribe(dl=>{
+        dl.forEach(d=>{
+          this.afs.doc(`departments/${d.id}`).delete();
+          this.deleteChildDepartment(d.id)}
+          );
+      })
+  }
 }
