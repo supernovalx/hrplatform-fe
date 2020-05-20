@@ -10,6 +10,7 @@ import { User } from './user';
 import { Observable } from 'rxjs/internal/Observable';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { DbService } from './db.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,8 @@ export class AuthService {
     public afs: AngularFirestore, // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
-    public ngZone: NgZone // NgZone service to remove outside scope warning
+    public ngZone: NgZone, // NgZone service to remove outside scope warning
+    public db:DbService
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
@@ -84,6 +86,7 @@ export class AuthService {
         });
         console.log('result',result.user);
         this.SetUserData(result.user,user);
+        this.db.setCompanyData({id:result.user.uid,name:result.user.email,description:result.user.email});
       })
       .catch(error => {
         window.alert(error.message);
@@ -110,7 +113,8 @@ export class AuthService {
       emailVerified: user.emailVerified,
       address: userInfo.address,
       phone: userInfo.phone,
-      dob: userInfo.dob
+      dob: userInfo.dob,
+      companyId:user.uid
     };
     return userRef.set(userData, {
       merge: true

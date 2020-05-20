@@ -48,14 +48,14 @@
                 </ul>
               </div>
               <div class="form-group">
-                <input type="date" class="form-control form-control-user" placeholder="Date of birth" #phone required formControlName="dob">
+                <input type="date" class="form-control form-control-user" placeholder="Date of birth" #dob required formControlName="dob">
                 <ul *ngFor="let validation of account_validation_messages.dob">
                   <li class="error-message" *ngIf="registerForm.get('dob').hasError(validation.type) && (registerForm.get('dob').dirty || registerForm.get('dob').touched)">{{validation.message}}
                   </li>
                 </ul>
               </div>
 
-              <input type="submit" class="btn btn-primary btn-user btn-block" value="Sign Up" [disabled]="!registerForm.valid">
+              <input  type="submit" class="btn btn-primary btn-user btn-block" value="Sign Up" [disabled]="!registerForm.valid">
             </form>
             <div class="text-center">
               <a class="small" [routerLink]="['/login']" >Already have an account? Login!</a>

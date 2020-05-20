@@ -50,9 +50,6 @@ export class SignUpComponent implements OnInit {
 
   }
 
-  get formValue(){
-    return JSON.stringify(this.registerForm);
-  }
   onSubmit()
   {
     this.authService.SignUp(this.registerForm.value);

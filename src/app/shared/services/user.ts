@@ -8,4 +8,5 @@ export interface User {
     address?:string;
     phone?:string;
     dob?:Date;
+    companyId?:string;
 }

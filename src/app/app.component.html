@@ -3,7 +3,7 @@
     <img src="assets/hr-logo.png" class="d-inline-block align-top" alt="" loading="lazy">
   </a>
 
-  <span *ngIf="auth.isLoggedIn" class="navbar-text">
+  <span *ngIf="auth.isLoggedIn && auth.userData" class="navbar-text">
     Welcome {{auth.userData.email}}
   </span>
 </nav>
@@ -15,11 +15,11 @@
         <li [class.selected]="router.url === '/home'" [routerLink]="['/home']"><i class="fas fa-home"></i>    Home</li>
         <li *ngIf="!auth.isLoggedIn" [class.selected]="router.url === '/login'" [routerLink]="['/login']"><i class="fas fa-sign-in-alt"></i>   Login</li>
         <li *ngIf="!auth.isLoggedIn" [class.selected]="router.url === '/register'" [routerLink]="['/register']"><i class="fas fa-diagnoses"></i>  Register</li>
-        <li *ngIf="auth.isLoggedIn" [class.selected]="router.url === '/register'" (click)="auth.SignOut()"><i class="fas fa-diagnoses"></i>  Logout</li>
         <li *ngIf="auth.isLoggedIn" [class.selected]="router.url === '/manage-departments'" [routerLink]="['/manage-departments']"><i class="fas fa-project-diagram"></i>    Manage departments</li>
         <li *ngIf="auth.isLoggedIn" [class.selected]="router.url === '/manage-users'" [routerLink]="['/manage-users']"><i class="fas fa-users"></i>  Manage users</li>
-        <li *ngIf="auth.isLoggedIn" [class.selected]="router.url === '/conpany'" [routerLink]="['/conpany']"><i class="fas fa-building"></i>  Edit company info</li>
-        <li *ngIf="auth.isLoggedIn" [class.selected]="router.url === '/my-profile'" [routerLink]="['/my-profile']"><i class="fas fa-user-edit"></i>  My profile</li>
+        <li *ngIf="auth.isLoggedIn" [class.selected]="router.url === '/company'" [routerLink]="['/company']"><i class="fas fa-building"></i>  My conpany</li>
+        <li *ngIf="auth.isLoggedIn" [class.selected]="router.url === '/profile'" [routerLink]="['/profile']"><i class="fas fa-user-edit"></i>  My profile</li>
+        <li *ngIf="auth.isLoggedIn" [class.selected]="router.url === '/register'" (click)="auth.SignOut()"><i class="fas fa-diagnoses"></i>  Logout</li>
       </ul>
     </div>
     <div class="col">

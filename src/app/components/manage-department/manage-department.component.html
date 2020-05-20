@@ -1,6 +1,6 @@
 <google-chart [data]="pieChart" (chartSelect)='select($event)'></google-chart>
 
-<p>Selected {{selectedNode?.selectedRowValues[0]}}</p>
+<p>Selected {{selectedNode?.selectedRowValues[0]}} department</p>
 
 <form *ngIf="selectedNode" [formGroup]="addNodeForm" (ngSubmit)="addNode(addNodeForm.value)">
 

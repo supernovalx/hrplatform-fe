@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { DepartmentChartComponent } from './department-chart/department-chart.component';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -16,24 +15,24 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
-import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { AppRoutingModule } from 'src/app/shared/routing/app-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthService } from './shared/services/auth.service';
 import { ManageDepartmentComponent } from './components/manage-department/manage-department.component';
 import { HomeComponent } from './components/home/home.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
+import { ConpanyComponent } from './components/conpany/conpany.component';
+import { DbService } from './shared/services/db.service';
 @NgModule({
   declarations: [
     AppComponent,
-    DepartmentChartComponent,
     SignInComponent,
     SignUpComponent,
-    ForgotPasswordComponent,
     DashboardComponent,
     ManageDepartmentComponent,
     HomeComponent,
-    MyProfileComponent
+    MyProfileComponent,
+    ConpanyComponent
   ],
   imports: [
     AppRoutingModule,
@@ -47,7 +46,7 @@ import { MyProfileComponent } from './components/my-profile/my-profile.component
     AngularFireAuthModule,
     AngularFirestoreModule
   ],
-  providers: [AuthService],
+  providers: [AuthService,DbService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

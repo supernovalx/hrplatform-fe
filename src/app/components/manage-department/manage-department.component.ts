@@ -7,7 +7,7 @@ import { FormGroup, FormBuilder, Validators, ValidatorFn, ValidationErrors } fro
   templateUrl: './manage-department.component.html',
   styleUrls: ['./manage-department.component.css']
 })
-export class ManageDepartmentComponent implements OnInit {
+export class ManageDepartmentComponent  {
 
   selectedNode:ChartSelectEvent;
   public pieChart: GoogleChartInterface = {
@@ -33,9 +33,6 @@ export class ManageDepartmentComponent implements OnInit {
       desc: ''
     });
     this.addNodeForm.setValidators(this.departmentValidator());
-  }
-  ngOnInit(): void {
-    throw new Error("Method not implemented.");
   }
    onSelect(event)
    {

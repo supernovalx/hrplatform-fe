@@ -1,0 +1,30 @@
+<div class="container-sm">
+    <h1>My company</h1>
+    <form class="user" [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="uid">Company ID</label>
+          <input type="text" class="form-control form-control-user" placeholder="Company ID" #uid formControlName="id" readonly>
+        </div>          
+        <div class="form-group">
+            <label for="fullname">Company name</label>
+          <input type="text" class="form-control form-control-user" placeholder="Company name" #fullname formControlName="name">
+          <ul *ngFor="let validation of account_validation_messages.name">
+            <li class="error-message" *ngIf="companyForm.get('name').hasError(validation.type) && (companyForm.get('name').dirty || companyForm.get('name').touched)">{{validation.message}}
+            </li>
+          </ul>
+        </div>
+        <div class="form-group">
+            <label for="userEmail">Company description</label>
+          <input type="email" class="form-control form-control-user" placeholder="Company description" #userEmail formControlName="description">
+          <ul *ngFor="let validation of account_validation_messages.description">
+            <li class="error-message" *ngIf="companyForm.get('description').hasError(validation.type) && (companyForm.get('description').dirty || companyForm.get('description').touched)">{{validation.message}}
+            </li>
+          </ul>
+        </div>
+        <input type="submit" class="btn btn-primary btn-user btn-block updateBtn" value="Update" [disabled]="!companyForm.valid">
+      </form>
+</div>
+<pre>{{company | json}}</pre>
+  <pre>{{auth.userData | json}}</pre>
+
+<pre>{{user | json}}</pre>
