@@ -8,19 +8,15 @@ import { FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent implements OnInit {
-  public loginForm=this.fb.group(
-    {
-      email:['',Validators.required],
-      password:['',Validators.required]
-      
-    }
-  );
-  constructor(public authService: AuthService,public fb:FormBuilder) {}
+  public loginForm = this.fb.group({
+    email: ['', Validators.required],
+    password: ['', Validators.required]
+  });
+  constructor(public authService: AuthService, public fb: FormBuilder) {}
 
   ngOnInit() {}
 
-  onSubmit()
-  {
+  onSubmit() {
     this.authService.SignIn(this.loginForm.value);
   }
 }
