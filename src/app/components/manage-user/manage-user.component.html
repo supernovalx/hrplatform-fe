@@ -4,7 +4,7 @@
       <h2 class="mb-0">
         <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne"
           aria-expanded="true" aria-controls="collapseOne">
-          Add or update user information
+          <i class="fas fa-hand-paper"></i> Add or update user information
         </button>
       </h2>
     </div>
@@ -75,7 +75,7 @@
                 </div>
                 <div class="form-group">
                   <label for="dp">Department</label>
-                  <select class="form-control" #dp required formControlName="department">
+                  <select class="form-control form-control-user" #dp required formControlName="department">
                     <option *ngFor="let d of departmentsData" [ngValue]="d.id">{{d.name}}</option>
                   </select>
                   <ul *ngFor="let validation of account_validation_messages.department">
@@ -114,7 +114,6 @@
     <option *ngFor="let d of departmentsData" [ngValue]="d.id">{{d.name}}</option>
   </select>
 </div>
-<p>{{selectedFilter}}</p>
 
 <table *ngIf="!loading" class="table table-striped ">
   <thead class="thead-dark">
@@ -144,6 +143,6 @@
   </tbody>
 </table>
 
-<p>{{selectedUserIdToBeUpdated}}</p>
+<!-- <p>{{selectedUserIdToBeUpdated}}</p>
 <pre>{{usersData |json}}</pre>
-<pre>{{departmentsData|json}}</pre>
+<pre>{{departmentsData|json}}</pre> -->

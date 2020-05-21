@@ -79,7 +79,7 @@ export class ManageDepartmentComponent implements OnDestroy{
     return ([
       {
         v: department.id,
-        f: `<div style="font-weight:bold;text-transform: uppercase;text-decoration:underline;">${department.name}</div><div style="color:red;">${department.description}</div>`
+        f: `<div style="font-weight:900;text-transform: uppercase;color:#C7486D;">${department.name}</div><div style="color:#7A4107;">${department.description}</div>`
       },
       department.parentId,
       department.name
@@ -130,5 +130,10 @@ export class ManageDepartmentComponent implements OnDestroy{
     let ccComponent = this.orgChart.component;
     ccComponent.draw();
     }catch(e){console.log(e)};
+  }
+
+  printthis()
+  {
+    print();
   }
 }

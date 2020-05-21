@@ -1,16 +1,18 @@
-<h1>Organization chart</h1>
-<span *ngIf="!loading" class="badge badge-pill badge-info">{{orgChart.dataTable.length-1}} departments</span>
-<google-chart  [data]="orgChart" (chartSelect)='select($event)'></google-chart>
-<h4 *ngIf="orgChart.dataTable.length<=1 && !loading" class="text-center text-info">There is no department in your company. Please add more!</h4>
+<h1 class="d-print-none">Organization chart</h1>
+<button *ngIf="!loading" class="btn btn-info d-print-none">{{orgChart.dataTable.length-1}} departments</button>
+<button *ngIf="!loading" class="btn btn-primary d-print-none" onClick="window.print()"><i class="fas fa-print"></i> Print this</button>
+<google-chart id="print-section" [data]="orgChart" (chartSelect)='select($event)'></google-chart>
 
-<div *ngIf="loading" class="d-flex justify-content-center">
+<h4 *ngIf="orgChart.dataTable.length<=1 && !loading" class="text-center text-info d-print-none">There is no department in your company. Please add more!</h4>
+
+<div *ngIf="loading" class="d-flex justify-content-center d-print-none">
   <div class="spinner-border text-primary" role="status">
     <span class="sr-only">Loading...</span>
   </div>
 </div>
 
-<h1>Add, update or delete department</h1>
-<form class="user" [formGroup]="addNodeForm">
+<h1 class="d-print-none">Add, update or delete department</h1>
+<form class="user" [formGroup]="addNodeForm" class="d-print-none">
   <label for="parent">Selected department</label>
   <div class="form-group">
     <input type="text" class="form-control form-control-user" #parent formControlName="selected" readonly placeholder="None">
@@ -37,6 +39,6 @@
     </div>
   </div>
 </form>
-<p>{{selectedDepartmentId}}</p>
+<!-- <p>{{selectedDepartmentId}}</p>
 <pre>{{departmentsData | json}}</pre>
-<pre>{{orgChart.dataTable | json}}</pre>
+<pre>{{orgChart.dataTable | json}}</pre> -->

@@ -18,7 +18,7 @@ export class ManageUserComponent implements OnDestroy {
   departmentsData: any;
   usersData: any;
   userData: any;
-  selectedUserIdToBeUpdated:any;
+  selectedUserIdToBeUpdated='';
   account_validation_messages = {
     fullname: [{ type: 'required', message: 'Fullname is required' }],
     email: [
@@ -96,6 +96,11 @@ export class ManageUserComponent implements OnDestroy {
     this.selectedUserIdToBeUpdated=u.id;
   }
   updateUser(){
+    if(this.selectedUserIdToBeUpdated==='')
+    {
+      alert('Please select an employee first!');
+      return;
+    }
     this.db.setUserData({...this.userForm.value,uid:this.selectedUserIdToBeUpdated});
   }
 

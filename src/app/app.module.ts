@@ -16,23 +16,20 @@ import { environment } from '../environments/environment';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { AppRoutingModule } from 'src/app/shared/routing/app-routing.module';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthService } from './shared/services/auth.service';
 import { ManageDepartmentComponent } from './components/manage-department/manage-department.component';
-import { HomeComponent } from './components/home/home.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { ConpanyComponent } from './components/conpany/conpany.component';
 import { DbService } from './shared/services/db.service';
 import { ManageUserComponent } from './components/manage-user/manage-user.component';
 import { DepartmentNamePipe } from './shared/pipes/department-name.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
     SignInComponent,
     SignUpComponent,
-    DashboardComponent,
     ManageDepartmentComponent,
-    HomeComponent,
     MyProfileComponent,
     ConpanyComponent,
     ManageUserComponent,

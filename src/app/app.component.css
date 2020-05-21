@@ -32,3 +32,12 @@ ul{
     padding: 0;
     margin:0;
 }
+
+.left-bar{
+    min-height: 95vh;
+}
+
+.copyright{
+    min-height: 4rem;
+    color:white;
+}

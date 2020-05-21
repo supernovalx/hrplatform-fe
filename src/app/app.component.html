@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-dark d-print-none" >
   <a class="navbar-brand" href="#">
     <img src="assets/hr-logo.png" class="d-inline-block align-top" alt="" loading="lazy">
   </a>
@@ -12,22 +12,26 @@
 </nav>
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="bg-gradient-primary col-sm-4 col-md-3 col-lg-2 side-bar">
+  <div class="row left-bar">
+    <div class="bg-gradient-primary col-sm-4 col-md-3 col-lg-2 side-bar d-print-none">
       <ul>
-        <li [class.selected]="router.url === '/home'" [routerLink]="['/home']"><i class="fas fa-home"></i>    Home</li>
-        <li *ngIf="!auth.isLoggedIn" [class.selected]="router.url === '/login'" [routerLink]="['/login']"><i class="fas fa-sign-in-alt"></i>   Login</li>
-        <li *ngIf="!auth.isLoggedIn" [class.selected]="router.url === '/register'" [routerLink]="['/register']"><i class="fas fa-diagnoses"></i>  Register</li>
-        <li *ngIf="auth.isLoggedIn" [class.selected]="router.url === '/manage-departments'" [routerLink]="['/manage-departments']"><i class="fas fa-project-diagram"></i>    Manage departments</li>
-        <li *ngIf="auth.isLoggedIn" [class.selected]="router.url === '/manage-users'" [routerLink]="['/manage-users']"><i class="fas fa-users"></i>  Manage users</li>
-        <li *ngIf="auth.isLoggedIn" [class.selected]="router.url === '/company'" [routerLink]="['/company']"><i class="fas fa-building"></i>  My conpany</li>
-        <li *ngIf="auth.isLoggedIn" [class.selected]="router.url === '/profile'" [routerLink]="['/profile']"><i class="fas fa-user-edit"></i>  My profile</li>
-        <li *ngIf="auth.isLoggedIn" [class.selected]="router.url === '/register'" (click)="auth.SignOut()"><i class="fas fa-diagnoses"></i>  Logout</li>
+        <li *ngIf="!auth.isLoggedIn" routerLinkActive="selected"  [routerLink]="['/login']"><i class="fas fa-sign-in-alt"></i>   Login</li>
+        <li *ngIf="!auth.isLoggedIn" routerLinkActive="selected" [routerLink]="['/register']"><i class="fas fa-diagnoses"></i>  Register</li>
+        <li *ngIf="auth.isLoggedIn" routerLinkActive="selected" [routerLink]="['/manage-departments']"><i class="fas fa-project-diagram"></i>    Manage departments</li>
+        <li *ngIf="auth.isLoggedIn" routerLinkActive="selected" [routerLink]="['/manage-users']"><i class="fas fa-users"></i>  Manage users</li>
+        <li *ngIf="auth.isLoggedIn" routerLinkActive="selected" [routerLink]="['/company']"><i class="fas fa-building"></i>  My conpany</li>
+        <li *ngIf="auth.isLoggedIn" routerLinkActive="selected" [routerLink]="['/profile']"><i class="fas fa-user-edit"></i>  My profile</li>
+        <li *ngIf="auth.isLoggedIn" routerLinkActive="selected" (click)="auth.SignOut()"><i class="fas fa-diagnoses"></i>  Logout</li>
       </ul>
     </div>
     <div class="col">
       <router-outlet></router-outlet>
 
+    </div>
+  </div>
+  <div class="row bg-gradient-dark align-items-center copyright">
+    <div class="col ">
+      <h5 class="text-center">Copyright ©HR Platform</h5>
     </div>
   </div>
 </div>
