@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { DbService } from 'src/app/shared/services/db.service';
-import { Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-manage-user',
@@ -18,11 +18,13 @@ export class ManageUserComponent implements OnDestroy {
   departmentsData: any;
   usersData: any;
   userData: any;
+  selectedUserIdToBeUpdated:any;
   account_validation_messages = {
     fullname: [{ type: 'required', message: 'Fullname is required' }],
     email: [
       { type: 'required', message: 'Email is required' },
-      { type: 'pattern', message: 'Enter a valid email' }
+      { type: 'pattern', message: 'Enter a valid email' },
+      { type: 'existedEmail', message: 'Email has existed!' }
     ],
     password: [
       { type: 'required', message: 'Password is required' },
@@ -46,10 +48,6 @@ export class ManageUserComponent implements OnDestroy {
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ])
-    ],
-    password: [
-      '',
-      Validators.compose([Validators.required, Validators.minLength(6)])
     ],
     phone: ['', Validators.required],
     dob: ['', Validators.required],
@@ -85,8 +83,29 @@ export class ManageUserComponent implements OnDestroy {
       });
     });
   }
-  updateUser() {}
+  selectUser(id:string) {
+    let u=this.usersData.find(i=>i.id===id);
+    this.userForm.setValue({
+      fullname:u.fullname,
+      email:u.email,
+      dob:u.dob,
+      address:u.address,
+      department:u.departmentId,
+      phone:u.phone
+    });
+    this.selectedUserIdToBeUpdated=u.id;
+  }
+  updateUser(){
+    this.db.setUserData({...this.userForm.value,uid:this.selectedUserIdToBeUpdated});
+  }
+
   addUser() {
+    //console.log('u',this.usersData);
+    if(this.usersData.some(u=>u.email===this.userForm.value.email))
+    {
+      alert('Email has existed!');
+      return;
+    }
     this.auth.addNewAccount({
       ...this.userForm.value,
       companyId: this.company.id,
@@ -94,6 +113,21 @@ export class ManageUserComponent implements OnDestroy {
     });
   }
 
+  
+  existedEmailValidator(fc: FormControl){
+    if(this.usersData && this.usersData.any(u=>u.email===fc.value)){
+      return ({existedEmail: true});
+    } else {
+      return (null);
+    }
+  }
+  deleteUser(id:string)
+  {
+    console.log(id);
+    if(confirm("Are you sure?"))
+      this.db.deleteUserById(id);
+
+  }
   filter(l) {
     //console.log(this.selectedFilter, this.selectedFilter === '0');
     /*l.forEach(i => {

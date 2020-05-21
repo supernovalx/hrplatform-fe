@@ -38,19 +38,6 @@
                   </ul>
                 </div>
                 <div class="form-group">
-                  <label for="password">Password</label>
-                  <input type="password" class="form-control form-control-user" placeholder="Password" #userPwd
-                    formControlName="password">
-                  <ul *ngFor="let validation of account_validation_messages.password">
-                    <li class="error-message"
-                      *ngIf="userForm.get('password').hasError(validation.type) && (userForm.get('password').dirty || userForm.get('password').touched)">
-                      {{validation.message}}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-group">
                   <label for="address">Address</label>
                   <input type="text" class="form-control form-control-user" placeholder="Address" #address
                     formControlName="address">
@@ -61,6 +48,9 @@
                     </li>
                   </ul>
                 </div>
+              </div>
+              <div class="col">
+               
                 <div class="form-group">
                   <label for="phone">Phone</label>
                   <input type="phone" class="form-control form-control-user" placeholder="Phone" #phone required
@@ -126,11 +116,12 @@
 </div>
 <p>{{selectedFilter}}</p>
 
-<table *ngIf="!loading" class="table table-striped">
-  <thead>
+<table *ngIf="!loading" class="table table-striped ">
+  <thead class="thead-dark">
     <tr>
       <th scope="col">Fullname</th>
       <th scope="col">Email</th>
+      <th scope="col">Phone</th>
       <th scope="col">Address</th>
       <th scope="col">Date of birth</th>
       <th scope="col">Department</th>
@@ -141,14 +132,18 @@
     <tr *ngFor="let u of filter(usersData)">
       <th scope="row">{{u.fullname}}</th>
       <td>{{u.email}}</td>
+      <td>{{u.phone}}</td>
       <td>{{u.address}}</td>
       <td>{{u.dob}}</td>
-      <td>{{u.departmentId}}</td>
-      <td><button class="btn btn-warning"><i class="far fa-trash-alt"></i></button></td>
+      <td>{{departmentsData | departmentName:u.departmentId}}</td>
+      <td>
+        <button (click)="deleteUser(u.id)" class="btn btn-warning"><i class="far fa-trash-alt"></i></button>
+        <button (click)="selectUser(u.id)" class="btn btn-success"><i class="fas fa-pen"></i></button>
+      </td>
     </tr>
   </tbody>
 </table>
 
-
+<p>{{selectedUserIdToBeUpdated}}</p>
 <pre>{{usersData |json}}</pre>
 <pre>{{departmentsData|json}}</pre>

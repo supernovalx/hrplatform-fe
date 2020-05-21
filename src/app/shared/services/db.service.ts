@@ -39,6 +39,11 @@ export class DbService {
     });
   }
 
+  deleteUserById(id:string)
+  {
+    return this.afs.doc(`users/${id}`).delete();
+  }
+
   getDepartmentsCollectionByCompanyId(companyId: string) {
     return this.afs
       .collection('departments', ref => ref.where('companyId', '==', companyId))
