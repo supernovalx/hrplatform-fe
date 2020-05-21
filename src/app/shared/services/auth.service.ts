@@ -51,8 +51,8 @@ export class AuthService {
         }
       })
     );
-    this.user$.subscribe(u=>{
-      this.userData=u;
+    this.user$.subscribe(u => {
+      this.userData = u;
     });
   }
 
@@ -89,7 +89,11 @@ export class AuthService {
         });
         console.log('result', result.user);
         //this.SetUserData(result.user, user);
-        this.db.setUserData({ ...user, uid: result.user.uid, companyId:result.user.uid });
+        this.db.setUserData({
+          ...user,
+          uid: result.user.uid,
+          companyId: result.user.uid
+        });
         this.db.setCompanyData({
           id: result.user.uid,
           name: result.user.email,
@@ -101,7 +105,8 @@ export class AuthService {
       });
   }
 
-  addNewAccount(user:User){
+  addNewAccount(user: User) {
+    return this.db.setUserData({ ...user, uid: this.afs.createId() });
     return this.afAuth
       .createUserWithEmailAndPassword(user.email, user.password)
       .then(result => {
@@ -110,7 +115,6 @@ export class AuthService {
         //this.SendVerificationMail();
         console.log('result', result.user);
         //this.SetUserData(result.user, user);
-        this.db.setUserData({ ...user, uid: result.user.uid });
       })
       .catch(error => {
         window.alert(error.message);

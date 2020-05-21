@@ -24,6 +24,7 @@ import { MyProfileComponent } from './components/my-profile/my-profile.component
 import { ConpanyComponent } from './components/conpany/conpany.component';
 import { DbService } from './shared/services/db.service';
 import { ManageUserComponent } from './components/manage-user/manage-user.component';
+import { DepartmenNamePipe } from './shared/pipes/departmen-name.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +35,8 @@ import { ManageUserComponent } from './components/manage-user/manage-user.compon
     HomeComponent,
     MyProfileComponent,
     ConpanyComponent,
-    ManageUserComponent
+    ManageUserComponent,
+    DepartmenNamePipe
   ],
   imports: [
     AppRoutingModule,

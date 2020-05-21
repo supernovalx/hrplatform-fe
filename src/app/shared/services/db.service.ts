@@ -45,12 +45,15 @@ export class DbService {
       .valueChanges({ idField: 'id' });
   }
 
+  getDepartmentById(departmentId: string) {
+    return this.afs.doc(`departments/${departmentId}`).valueChanges();
+  }
+
   addDepartment(deparment: Department) {
     return this.afs.collection('departments').add(deparment);
   }
 
-  setDepartmentData(deparment:Department)
-  {
+  setDepartmentData(deparment: Department) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `departments/${deparment.id}`
     );
@@ -58,36 +61,36 @@ export class DbService {
       merge: true
     });
   }
-  deleteDepartment(id:string)
-  {
+  deleteDepartment(id: string) {
     this.deleteChildDepartment(id);
     return this.afs.doc(`departments/${id}`).delete();
   }
 
-  deleteChildDepartment(parentId:string)
-  {
+  deleteChildDepartment(parentId: string) {
     this.afs
       .collection('departments', ref => ref.where('parentId', '==', parentId))
-      .valueChanges({ idField: 'id' }).subscribe(dl=>{
-        dl.forEach(d=>{
+      .valueChanges({ idField: 'id' })
+      .subscribe(dl => {
+        dl.forEach(d => {
           this.afs.doc(`departments/${d.id}`).delete();
-          this.deleteChildDepartment(d.id)}
-          );
-      })
+          this.deleteChildDepartment(d.id);
+        });
+      });
   }
 
-  getUsersByCompanyId(id:string)
-  {
+  getUsersByCompanyId(id: string) {
     return this.afs
       .collection('users', ref => ref.where('companyId', '==', id))
       .valueChanges({ idField: 'id' });
   }
 
-  getUsersByCompanyIdAndDepartmentId(companyId:string,departmentId:string)
-  {
+  getUsersByCompanyIdAndDepartmentId(companyId: string, departmentId: string) {
     return this.afs
-      .collection('users', ref => ref.where('companyId', '==', companyId).where('departmentId','==',departmentId))
+      .collection('users', ref =>
+        ref
+          .where('companyId', '==', companyId)
+          .where('departmentId', '==', departmentId)
+      )
       .valueChanges({ idField: 'id' });
   }
-
 }
