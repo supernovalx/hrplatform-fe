@@ -1,6 +1,12 @@
-# HrplatformFe
+# HR PLATFORM - VN ONLINE HACKATHON 2020
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.4.
+
+## How to use?
+Just simply register an account and log in (no email verification is required!).
+
+## Deploy to firebase
+Run `firebase deploy`.
 
 ## Development server
 
